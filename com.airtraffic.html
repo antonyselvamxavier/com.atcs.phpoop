@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+<title>Air Traffic Control System</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+/* required style*/ 
+.none{display: none;}
+
+/* optional styles */
+table tr th, table tr td{font-size: 1.2rem;}
+.row{ margin:20px 20px 20px 20px;width: 100%;}
+.glyphicon{font-size: 20px;}
+.glyphicon-plus{float: right;}
+a.glyphicon{text-decoration: none;cursor: pointer;}
+.glyphicon-trash{margin-left: 10px;}
+.alert{
+    width: 50%;
+    border-radius: 0;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+<script src=controller.js>
+// calling controller.js
+</script>
+</head>
+<body ng-app="atcapp">
+<div class="container" ng-controller="flightController" ng-init="getflightRecords()">
+    <div class="row">
+    	<h2 align="center">Air Traffic Control System</h2>
+        <center><input type="submit" name="Boot" class="btn btn-success" ng-click="ShowHide()" value="Boot">
+                <input type="submit" name="exit" class="btn btn-danger" ng-click="exit()" value="Exit"></center>
+                <br/><br/>
+        <div class="panel panel-default users-content" ng-show="IsVisible">
+            <div class="panel-heading">Flight Enqueue [To Enqueue Flights click on the Plus Symbol] <a href="javascript:void(0);" class="glyphicon glyphicon-plus" onClick="$('.formData').slideDown();"></a></div>
+            <div class="alert alert-danger none"><p></p></div>
+            <div class="alert alert-success none"><p></p></div>
+            <div class="panel-body none formData">
+                <form class="form" name="flightForm">
+                    <div class="form-group">
+                        <label>Flight ID</label>
+                        <input type="text" class="form-control" name="FlightID" ng-model="tempflightData.FlightID"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Flight Type</label>
+                        <select name="flighttype" ng-model="tempflightData.FlightType" ng-options= "x for x in flighttypes" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Flight Size</label>
+                        <select name="flightsize" ng-model="tempflightData.FlightSize" ng-options= "x for x in flightsizes" class="form-control"></select>
+                    </div>
+                    <a href="javascript:void(0);" class="btn btn-danger" onClick="$('.formData').slideUp();">Cancel</a>
+                    <a href="javascript:void(0);" class="btn btn-success" ng-hide="tempflightData.id" ng-click="EnqueueFlight()">Enqueue flight</a>
+                    <a href="javascript:void(0);" class="btn btn-success" ng-hide="!tempflightData.id" ng-click="updateflight()">Mod-Enqueue flight</a>
+                </form>
+            </div>
+            <table class="table table-striped">
+                <tr>
+                    
+                    <th width="20%">Flight ID</th>
+                    <th width="20%">Flight Type</th>
+                    <th width="20%">Flight Size</th>
+                    <th width="15%">Created</th>
+                    <th width="20%"></th>
+                </tr>
+                <tr ng-repeat="flight in flights | orderBy:'FlightSize'| orderBy:'FlightType'">
+                    
+                    <td>{{flight.FlightID}}</td>
+                    <td>{{flight.FlightType}}</td>
+                    <td>{{flight.FlightSize}}</td>
+                    <td>{{flight.created}}</td>
+                    <td>
+                        <a href="javascript:void(0);" class="btn btn-success" ng-click="editflight(flight)">Modify Enqueued</a>
+                        <a href="javascript:void(0);" class="btn btn-danger" ng-click="dequeueflight(flight)">Dequeue</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
