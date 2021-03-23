@@ -17,12 +17,8 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
       
-      - name: Code Inspector GitHub action
+    - name: Code Inspector GitHub action
   # You may pin to the exact commit or the version.
   # uses: codeinspectorio/github-action@01c818be303e2c4bcec991ca1c51feab753a1e2a
   uses: codeinspectorio/github-action@v1
